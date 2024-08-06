@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: endorser-api-config
+data:
+  POSTGRESQL_HOST: {{ .Values.rds.host | quote }}
+  POSTGRESQL_PORT: {{ .Values.rds.port | quote }}
+  POSTGRESQL_DB: {{ .Values.rds.databases.endorser | quote }}
+  ENVIRONMENT: {{ .Values.endorserApi.config.ENVIRONMENT | quote }}
+  TRACTION_WEBHOOK_URL: {{ .Values.endorserApi.config.TRACTION_WEBHOOK_URL | quote }}
+  ENDORSER_API_PORT: {{ .Values.endorserApi.config.ENDORSER_API_PORT | quote }}
+  ACAPY_ADMIN_URL: {{ .Values.endorserApi.config.ACAPY_ADMIN_URL | quote }}
