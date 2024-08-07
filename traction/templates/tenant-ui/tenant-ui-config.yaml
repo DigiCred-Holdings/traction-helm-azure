@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tenant-ui-config
+data:
+  SERVER_TRACTION_URL: {{ .Values.tenantUi.config.SERVER_TRACTION_URL | quote }}
+  FRONTEND_TENANT_PROXY_URL: {{ .Values.tenantUi.config.FRONTEND_TENANT_PROXY_URL | quote }}
+  FRONTEND_SIS_PROXY_URL: {{ .Values.tenantUi.config.FRONTEND_SIS_PROXY_URL | quote }}
+  IMAGE_BUILDTIME: {{ .Values.tenantUi.config.IMAGE_BUILDTIME | quote }}
+  IMAGE_TAG: {{ .Values.tenantUi.config.IMAGE_TAG | quote }}
+  IMAGE_VERSION: {{ .Values.tenantUi.config.IMAGE_VERSION | quote }}
+  UX_APP_TITLE: {{ .Values.tenantUi.config.UX_APP_TITLE | quote }}
+  UX_APP_INNKEEPER_TITLE: {{ .Values.tenantUi.config.UX_APP_INNKEEPER_TITLE | quote }}
+  UX_SIDEBAR_TITLE: {{ .Values.tenantUi.config.UX_SIDEBAR_TITLE | quote }}
+  UX_COPYRIGHT: {{ .Values.tenantUi.config.UX_COPYRIGHT | quote }}
+  UX_OWNER: {{ .Values.tenantUi.config.UX_OWNER | quote }}
+  FRONTEND_QUICK_CONNECT_ENDORSER_NAME: {{ .Values.tenantUi.config.FRONTEND_QUICK_CONNECT_ENDORSER_NAME | quote }}
+  SERVER_SMTP_SERVER: {{ .Values.tenantUi.config.SERVER_SMTP_SERVER | quote }}
+  SERVER_SMTP_PORT: {{ .Values.tenantUi.config.SERVER_SMTP_PORT | quote }}
+  TENANT_UI_PORT: {{ .Values.tenantUi.config.TENANT_UI_PORT | quote }}

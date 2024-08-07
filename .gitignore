@@ -1,0 +1,22 @@
+# Node and dependencies
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Environment variables
+.env
+.env.local
+
+# Logs
+logs/
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Helm specific files
+*.tgz
+
+# Ignore sensitive values file
+values-secret.yaml
