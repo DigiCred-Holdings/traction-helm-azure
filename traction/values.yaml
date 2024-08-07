@@ -1,0 +1,196 @@
+tractionAgent:
+  image: 
+    repository: ghcr.io/digicred-holdings/traction-agent
+    tag: latest
+    pullPolicy: Always
+  service:
+    type: ClusterIP
+    adminPort: 8031
+    httpPort: 8030
+    adminTargetPort: 8031
+    httpTargetPort: 8030
+  config:
+    TRACTION_ENV: "cloud"
+    ACAPY_ENDPOINT: "https://traction.mytestapp.co/traction-agent-http"
+    TRACTION_ACAPY_HTTP_PORT: "8030"
+    TRACTION_ACAPY_ADMIN_PORT: "8031"
+    TRACTION_ACAPY_WALLET_NAME: "digicredcrms-wallet"
+    TRACTION_ACAPY_WALLET_SCHEME: "DatabasePerWallet"
+    TRACTION_MULTITENANCY_CONFIGURATION_WALLET_TYPE: "askar-profile"
+    TRACTION_MULTITENANCY_CONFIGURATION_WALLET_NAME: "askar-wallet"
+    ACAPY_AUTO_PROVISION: "true"
+    ACAPY_WALLET_TYPE: "askar"
+    ACAPY_WALLET_STORAGE_TYPE: "postgres_storage"
+    ACAPY_LABEL: "Traction Agent"
+    ACAPY_GENESIS_TRANSACTIONS_LIST: "ledgers.yml"
+    ACAPY_READ_ONLY_LEDGER: "false"
+    ACAPY_LOG_LEVEL: "info"
+    ACAPY_MULTITENANT: "true"
+    ACAPY_MULTITENANT_ADMIN: "true"
+    ACAPY_EMIT_NEW_DIDCOMM_PREFIX: "true"
+    ACAPY_EMIT_NEW_DIDCOMM_MIME_TYPE: "true"
+    ACAPY_ENDORSER_ROLE: "author"
+    ACAPY_ENDORSER_ALIAS: "endorser"
+    ACAPY_AUTO_REQUEST_ENDORSEMENT: "true"
+    ACAPY_AUTO_WRITE_TRANSACTIONS: "true"
+    ACAPY_AUTO_PROMOTE_AUTHOR_DID: "true"
+    ACAPY_CREATE_REVOCATION_TRANSACTIONS: "true"
+    ACAPY_NOTIFY_REVOCATION: "true"
+    ACAPY_MONITOR_REVOCATION_NOTIFICATION: "true"
+    ACAPY_PRESERVE_EXCHANGE_RECORDS: "true"
+    ACAPY_AUTO_STORE_CREDENTIAL: "true"
+    ACAPY_AUTO_ACCEPT_INVITES: "true"
+    ACAPY_AUTO_ACCEPT_REQUESTS: "true"
+    ACAPY_AUTO_RESPOND_MESSAGES: "true"
+    ACAPY_AUTO_RESPOND_CREDENTIAL_REQUEST: "true"
+    ACAPY_AUTO_RESPOND_PRESENTATION_PROPOSAL: "true"
+    ACAPY_AUTO_VERIFY_PRESENTATION: "true"
+    ACAPY_AUTO_PING_CONNECTION: "true"
+    ACAPY_MONITOR_PING: "true"
+    ACAPY_PUBLIC_INVITES: "true"
+    ACAPY_PLUGIN_CONFIG: "plugin-config.yml"
+    ACAPY_ADMIN_INSECURE_MODE: "false"
+
+tenantUi:
+  image: 
+    repository: ghcr.io/digicred-holdings/traction-tenant-ui
+    tag: latest
+    pullPolicy: Always
+  service:
+    port: 5101
+    targetPort: 8080
+    type: ClusterIP
+  config:
+    SERVER_TRACTION_URL: "https://traction.mytestapp.co/proxy"
+    FRONTEND_TENANT_PROXY_URL: "https://traction.mytestapp.co/proxy"
+    FRONTEND_SIS_PROXY_URL:  "https://controllers-prod.digicred.services:3000"
+    IMAGE_BUILDTIME: ""
+    IMAGE_TAG: "scripts_tenant-ui:latest"
+    IMAGE_VERSION: "latest"
+    UX_APP_TITLE: "Traction Tenant Console"
+    UX_APP_INNKEEPER_TITLE: "Traction Innkeeper Console"
+    UX_SIDEBAR_TITLE: "Traction"
+    UX_COPYRIGHT: "2024 © DigiCred Holdings"
+    UX_OWNER: "DigiCred Holdings"
+    FRONTEND_QUICK_CONNECT_ENDORSER_NAME: "digicred-endorser"
+    SERVER_SMTP_SERVER: "maildev"
+    SERVER_SMTP_PORT: "1025"
+    TENANT_UI_PORT: "5101"
+
+tenantProxy:
+  image: 
+    repository: ghcr.io/digicred-holdings/traction-tenant-proxy
+    tag: latest
+    pullPolicy: Always
+  service:
+    port: 8032
+    targetPort: 8080
+    type: ClusterIP
+  config:
+    ACAPY_ADMIN_URL: "http://traction-agent:8031"
+
+endorserAgent:
+  image:
+    repository: "ghcr.io/hyperledger/aries-cloudagent-python"
+    tag: "py3.9-0.11.0"
+    pullPolicy: Always
+  service:
+    port:
+      http: 9030
+      admin: 9031
+    type: ClusterIP
+  config:
+    RUST_LOG: error
+    ACAPY_ENDORSER_ADMIN_PORT: "9031"
+    ACAPY_ENDORSER_HTTP_PORT: "9030"
+    ACAPY_ENDORSER_ENDPOINT: "https://traction.mytestapp.co/endorser-agent-http"
+    ENDORSER_AGENT_NAME: "Endorser Agent"
+    ENDORSER_ACAPY_READ_ONLY_MODE: ""
+    ENDORSER_WEBHOOK_URL: "http://endorser-api:5000/webhook"
+    ACAPY_GENESIS_URL: "http://genesis.digicred.services:9000/genesis"
+    ENDORSER_ACAPY_WALLET_TYPE: "askar"
+    ENDORSER_ACAPY_WALLET_STORAGE_TYPE: "postgres_storage"
+    ENDORSER_ACAPY_WALLET_DATABASE: "endorser-wallet"
+
+endorserApi:
+  image:
+    repository: ghcr.io/digicred-holdings/traction-endorser-api
+    tag: latest
+    pullPolicy: Always
+  service:
+    type: ClusterIP
+    port: 5300
+    targetPort: 5000
+  config:
+    ENVIRONMENT: "production"
+    TRACTION_WEBHOOK_URL: "https://traction.mytestapp.co/endorser-api/webhook"
+    ENDORSER_API_PORT: "5000"
+    ACAPY_ADMIN_URL: "https://traction.mytestapp.co/endorser-agent-admin"
+
+endorserAgent1:
+  image:
+    repository: "ghcr.io/hyperledger/aries-cloudagent-python"
+    tag: "py3.9-0.11.0"
+    pullPolicy: Always
+  service:
+    port:
+      http: 9032
+      admin: 9033
+    type: ClusterIP
+  config:
+    RUST_LOG: error
+    ACAPY_ENDORSER_1_ADMIN_PORT: "9033"
+    ACAPY_ENDORSER_1_HTTP_PORT: "9032"
+    ACAPY_ENDORSER_1_ENDPOINT: "https://traction.mytestapp.co/endorser-agent-1-http"
+    ENDORSER_AGENT_NAME: "Endorser Agent 1"
+    ENDORSER_1_ACAPY_READ_ONLY_MODE: ""
+    ENDORSER_1_WEBHOOK_URL: "http://endorser-api-1:5001/webhook"
+    ACAPY_GENESIS_URL_1: "http://genesis.digicred.services:9000/genesis"
+    ENDORSER_1_ACAPY_WALLET_TYPE: "askar"
+    ENDORSER_1_ACAPY_WALLET_STORAGE_TYPE: "postgres_storage"
+    ENDORSER_1_ACAPY_WALLET_DATABASE: "endorser-wallet-1"
+
+endorserApi1:
+  image:
+    repository: ghcr.io/digicred-holdings/traction-endorser-api
+    tag: latest
+    pullPolicy: Always
+  service:
+    type: ClusterIP
+    port: 5301
+    targetPort: 5001
+  config:
+    ENVIRONMENT: "production"
+    TRACTION_WEBHOOK_URL: "https://traction.mytestapp.co/endorser-api-1/webhook"
+    ENDORSER_API_PORT: "5001"
+    ACAPY_ADMIN_URL: "https://traction.mytestapp.co/endorser-agent-1-admin"
+
+maildev:
+  image:
+    repository: ghcr.io/digicred-holdings/maildev
+    tag: latest
+    pullPolicy: Always
+  ports:
+    web:
+      containerPort: 1080
+      hostPort: 1080
+    smtp:
+      containerPort: 1025
+      hostPort: 1025
+  service:
+    type: ClusterIP
+    ports:
+      web:
+        port: 1080
+        targetPort: 1080
+      smtp:
+        port: 1025
+        targetPort: 1025
+
+rds:
+  host: "crms-database.postgres.database.azure.com"
+  port: "5432"
+  databases:
+    traction: "traction_db"
+    endorser: "endorser_db"
+    endorser1: "endorser_db_1"

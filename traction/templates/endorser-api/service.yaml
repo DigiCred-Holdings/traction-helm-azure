@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: endorser-api
+  labels:
+    app: endorser-api
+spec:
+  type: {{ .Values.endorserApi.service.type }}
+  ports:
+    - port: {{ .Values.endorserApi.service.port }}
+      targetPort: {{ .Values.endorserApi.service.targetPort }}
+      protocol: TCP
+      name: http
+  selector:
+    app: endorser-api
