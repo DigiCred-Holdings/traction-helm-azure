@@ -11,3 +11,19 @@ spec:
   commonName: traction.mytestapp.co
   dnsNames:
   - traction.mytestapp.co
+
+## Uncomment if you are using an existing tls.crt and tls.key ##
+
+#apiVersion: cert-manager.io/v1
+#kind: Certificate
+#metadata:
+#  name: azure-traction-tls
+#  namespace: digicred-traction
+#spec:
+#  secretName: azure-traction-tls
+#  commonName: traction.mytestapp.co
+#  dnsNames:
+#  - traction.mytestapp.co
+#  privateKey:
+#    secretName: azure-traction-tls
+
