@@ -90,3 +90,10 @@ spec:
             name: endorser-api-1
             port:
               number: 5301
+      - path: /controller(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: flvs-controller
+            port:
+              number: 3002

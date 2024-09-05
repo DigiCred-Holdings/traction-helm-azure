@@ -188,9 +188,44 @@ maildev:
         targetPort: 1025
 
 rds:
-  host: "crms-database.postgres.database.azure.com"
+  #host: "10.224.0.6"
+  #host: "crms-database.postgres.database.azure.com"
+  host: "crms-database.privatelink.postgres.database.azure.com"
   port: "5432"
   databases:
     traction: "traction_db"
     endorser: "endorser_db"
     endorser1: "endorser_db_1"
+
+controller:
+  image:
+    repository: "ghcr.io/digicred-holdings/flvs-aca-py-controller"
+    tag: "latest"
+    pullPolicy: Always
+  service:
+    port: 3002
+    targetPort: 3002
+    type: ClusterIP
+  config:
+    API_BASE_URL: "https://traction.mytestapp.co"
+    ENDPOINT: "/proxy"
+    SCHOOL: "Florida Virtual School"
+    SCHOOL_WELCOME_MESSAGE: "Welcome to the Florida Virtual School!"
+    ISSUE_STUDENT_ID_MESSAGE: ""
+    ISSUE_STUDENT_TRANSCRIPT_MESSAGE: ""
+    REQUEST_STUDENT_ID_VERIFICATION_MESSAGE: ""
+    REQUEST_STUDENT_TRANSCRIPT_VERIFICATION_MESSAGE: ""
+    ID_SCHEMA_NAME: ""
+    TRANSCRIPT_SCHEMA_NAME: ""
+    TRANSCRIPT_CREDENTIAL_DEFINITION_ID: "FFEqY56kCGVbsrJVRgAAnW:3:CL:99:Florida Virtual School Student Transcripts"
+    STUDENTID_CREDENTIAL_DEFINITION_ID: "FFEqY56kCGVbsrJVRgAAnW:3:CL:100:Florida Virtual School Student ID"
+    NEW_ORIENTATION_CRED_DEF_ID: ""
+    STUDENTID_EXPIRATION: "20250101"
+    PORT: "3002"
+
+rds1:
+  host: "workflow-db.privatelink.postgres.database.azure.com"
+  #host: "workflow-db.postgres.database.azure.com"
+  port: "5432"
+  databases:
+    workflowdb: "florida_virtual_school_workflow_db"

@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: controller-config
+  labels:
+    app: flvs-controller
+data: 
+  API_BASE_URL: {{ .Values.controller.config.API_BASE_URL | quote }}
+  WORKFLOW_DB_HOST: {{ .Values.rds1.host | quote }}
+  WORKFLOW_DB_NAME: {{ .Values.rds1.databases.workflowdb | quote }}
+  WORKFLOW_DB_PORT: {{ .Values.rds1.port | quote }}
+  SCHOOL: {{ .Values.controller.config.SCHOOL | quote }}
+  SCHOOL_WELCOME_MESSAGE: {{ .Values.controller.config.SCHOOL_WELCOME_MESSAGE | quote }}
+  ISSUE_STUDENT_ID_MESSAGE: {{ .Values.controller.config.ISSUE_STUDENT_ID_MESSAGE | quote }}
+  ISSUE_STUDENT_TRANSCRIPT_MESSAGE: {{ .Values.controller.config.ISSUE_STUDENT_TRANSCRIPT_MESSAGE | quote }}
+  REQUEST_STUDENT_ID_VERIFICATION_MESSAGE: {{ .Values.controller.config.REQUEST_STUDENT_ID_VERIFICATION_MESSAGE | quote }}
+  REQUEST_STUDENT_TRANSCRIPT_VERIFICATION_MESSAGE: {{ .Values.controller.config.REQUEST_STUDENT_TRANSCRIPT_VERIFICATION_MESSAGE | quote }}
+  ID_SCHEMA_NAME: {{ .Values.controller.config.ID_SCHEMA_NAME | quote }}
+  TRANSCRIPT_SCHEMA_NAME: {{ .Values.controller.config.TRANSCRIPT_SCHEMA_NAME | quote }}
+  TRANSCRIPT_CREDENTIAL_DEFINITION_ID: {{ .Values.controller.config.TRANSCRIPT_CREDENTIAL_DEFINITION_ID | quote }}
+  STUDENTID_CREDENTIAL_DEFINITION_ID: {{ .Values.controller.config.STUDENTID_CREDENTIAL_DEFINITION_ID | quote }}
+  NEW_ORIENTATION_CRED_DEF_ID: {{ .Values.controller.config.NEW_ORIENTATION_CRED_DEF_ID | quote }}
+  STUDENTID_EXPIRATION: {{ .Values.controller.config.STUDENTID_EXPIRATION | quote }}
+  PORT: {{ .Values.controller.config.PORT | quote }}
+  ENDPOINT: {{ .Values.controller.config.ENDPOINT | quote }}

@@ -44,3 +44,12 @@ controller:
       sub_filter_types *;
       sub_filter 'href="/static/' 'href="/proxy/static/';
       sub_filter 'src="/static/' 'src="/proxy/static/';
+  service:
+    externalTrafficPolicy: Local
+    annotations:
+      service.beta.kubernetes.io/azure-load-balancer-health-probe-path: "/healthz"
+      service.beta.kubernetes.io/azure-load-balancer-health-probe-port: "80"
+      service.beta.kubernetes.io/azure-load-balancer-health-probe-path-https: "/healthz"
+      service.beta.kubernetes.io/azure-load-balancer-health-probe-port-https: "443"
+  #publishService:
+  #  enabled: falses
