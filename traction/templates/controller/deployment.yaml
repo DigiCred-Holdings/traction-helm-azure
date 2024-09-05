@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flvs-controller
+  labels:
+    app: flvs-controller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flvs-controller
+  template:
+    metadata:
+      labels:
+        app: flvs-controller
+    spec:
+      containers:
+        - name: flvs-controller
+          image: "{{ .Values.controller.image.repository }}:{{ .Values.controller.image.tag }}"
+          imagePullPolicy: "{{ .Values.controller.image.pullPolicy }}"
+          ports:
+            - containerPort: {{ .Values.controller.service.targetPort }}
+              name: http
+          envFrom:
+          - configMapRef:
+              name: controller-config
+          - secretRef:
+              name: controller-secrets
